@@ -1,7 +1,7 @@
+
+
 import streamlit as st
 import joblib
-import requests
-import json
 
 # Load the pre-trained model
 model_filename = 'model/spam_detection_model.pkl'
@@ -12,38 +12,37 @@ except Exception as e:
     clf = None
 
 # Define the prediction function
-def predict_spam(emails):
+def predict_spam(text):
     if clf is None:
         st.error("Model not loaded")
         return []
 
-    if not emails:
-        st.warning("No emails provided")
+    if not text:
+        st.warning("No text provided")
         return []
 
     try:
-        predictions = clf.predict(emails)
-        results = ['It is a Spam Email' if pred == 1 else 'Original Mail' for pred in predictions]
-        return results
+        # Assuming the model expects a list of texts, even if it's a single entry
+        predictions = clf.predict([text])
+        result = 'It is a Spam Email' if predictions[0] == 1 else 'Original Mail'
+        return result
     except Exception as e:
         st.error(f'Prediction failed: {e}')
-        return []
+        return "Prediction failed"
 
 # Streamlit app
 st.title('Spam Email Classifier')
 
 # Input text for emails
-emails_input = st.text_area("Enter emails (one per line):")
+emails_input = st.text_area("Enter your email text:")
 
 if st.button('Classify'):
     if emails_input:
-        # Split input by lines to get individual emails
-        emails = emails_input.split('\n')
-        predictions = predict_spam(emails)
+        # Pass the entire input text as one single email
+        prediction = predict_spam(emails_input)
 
-        # Display results
-        for email, prediction in zip(emails, predictions):
-            st.write(f"Email: {email}")
-            st.write(f"Prediction: {prediction}")
+        # Display result
+        st.write(f"Text: {emails_input}")
+        st.write(f"Prediction: {prediction}")
     else:
-        st.warning("Please enter some emails to classify.")
+        st.warning("Please enter some text to classify.")
