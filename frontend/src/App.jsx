@@ -31,7 +31,7 @@ function App() {
         const prediction = response.data.predictions[0];
         setMessages(prevMessages => [
           ...prevMessages,
-          { text: `The message is classified as: ${prediction}`, type: 'bot' },
+          { text: ` ${prediction}`, type: 'bot' },
         ]);
       } catch (error) {
         console.error('Error sending message:', error);
@@ -51,7 +51,7 @@ function App() {
         <h1 className="text-2xl font-bold  items-center">Spam Detector</h1>
       </header>
       <main className="flex-1 p-4 overflow-hidden hide-scrollbar">
-        <div className="flex flex-col space-y-7 h-full overflow-auto">
+        <div className="flex flex-col space-y-9 h-full overflow-auto">
           {messages.map((msg, index) => (
             <div
               key={index}
@@ -65,7 +65,7 @@ function App() {
                 )}
               </div>
               <div
-                className={`p-3 rounded-lg w-full ml-10 mr-52 text-left ${msg.type === 'user' ? 'bg-zinc-600 text-white' : ' text-white'
+                className={`p-3 rounded-lg w-full ml-10 mr-52  text-left ${msg.type === 'user' ? 'bg-zinc-600 text-white ' : ' text-white font-mono text-lg'
                   } ml-2 break-words`}
               >
                 <div className=' mr-6'>

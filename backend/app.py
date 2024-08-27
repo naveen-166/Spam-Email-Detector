@@ -29,7 +29,7 @@ def predict():
     # Here you might want to preprocess emails if necessary
     try:
         predictions = clf.predict(emails)
-        results = ['Spam' if pred == 1 else 'Not Spam' for pred in predictions]
+        results = ['It is a Spam Email' if pred == 1 else 'Original Mail' for pred in predictions]
         return jsonify({'predictions': results})
     except Exception as e:
         return jsonify({'error': f'Prediction failed: {e}'}), 500
